@@ -1,4 +1,5 @@
 # FlyCouchDB
+[![Build Status](https://travis-ci.org/haduart/flycouchdb.svg)](https://travis-ci.org/haduart/flycouchdb)
 
 FlyCouchDB is a [Clojure](http://clojure.org) migration tool for [Apache CouchDB](http://couchdb.apache.org/).
 
