@@ -1,0 +1,4 @@
+{:dbname       "edu-db"
+ :action       :edit-entries
+ :edit-entries {:filter-fn (fn [{count :count}] (< 10 count))
+                :edit-fn (fn [entry] (assoc entry :new-key "new value"))}}

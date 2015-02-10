@@ -1,0 +1,6 @@
+{:dbname      "edu-db"
+ :action      :create-view
+ :create-view {:view-design   "view-design"
+               :view-name     "view-name"
+               :function-type "javascript"
+               :view-function "function(doc) {if (doc.username && doc.username ==='eduard'') {emit(doc._id, doc);}}"}}

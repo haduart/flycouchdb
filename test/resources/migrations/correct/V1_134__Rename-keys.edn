@@ -1,0 +1,4 @@
+{:dbname      "edu-db"
+ :action      :rename-keys
+ :rename-keys {:filter-fn (fn [x] true)
+               :rename-fn (fn [{id :_id}] (str id "-new-end"))}}

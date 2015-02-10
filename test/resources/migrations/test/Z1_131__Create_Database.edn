@@ -1,0 +1,2 @@
+{:dbname "edu-db"
+ :action :create}
