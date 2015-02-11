@@ -22,8 +22,9 @@
         [function-name message])) => ["validate-is-a-file" "Is not a valid File"]))
 
 (fact "Generate the initial file structure"
-  (#'fly/generate-migration-file-structure second-file)
-  => {:file-name "V1_131__Create_Database.edn" :file second-file :source :file})
+  (let [prefix-name (.getName second-file)]
+    (#'fly/generate-migration-file-structure second-file)
+    => {:file-name prefix-name :file second-file :source :file}))
 
 (fact "Validate if it's a correct edn file and add it to the structure"
   (fact "Is an edn-file?"

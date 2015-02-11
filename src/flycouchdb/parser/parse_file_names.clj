@@ -3,8 +3,7 @@
         [slingshot.slingshot :only [throw+ try+]])
   (:import [java.io File]
            [java.lang ClassNotFoundException]
-           [clojure.lang ISeq]
-           [java.net URI URL]))
+           [clojure.lang ISeq]))
 
 (defn- validate-is-a-file
   "validates if it's a file"
