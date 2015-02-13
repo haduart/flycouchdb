@@ -91,6 +91,10 @@
     file
     validate-migrations))
 
+(defn- columns [column-names]
+  (fn [row]
+    (vec (map row column-names))))
+
 (defn migrate
   "Start the migration process"
   [^FlyCouchDB flycouchdb]
@@ -99,6 +103,7 @@
     (create-if-not-exists)
     (->>
       (validate-migrations-folder flycouchdb)
+      (sort-by (columns [:version :subversion]))
       (map (fn [migration] (slurp-edn-structures migration)))
       (map (fn [migration] (assoc migration :edn-function (parse-edn-structures (:edn-structure migration)))))
       (map (fn [migration] (assoc migration :ts (str (now)))))
@@ -116,3 +121,27 @@
   "Returns an instance of an implementation of FlyCouchDB"
   [^String location-folder]
   (FlyCouchDB. location-folder nil nil nil))
+
+;{:subversion 1
+; :version    1
+; :name       "V1_1__Create-edu-db"
+; :file       "/migrations/V1_1__Create-edu-db.edn"
+; :file-name  "V1_1__Create-edu-db.edn"}
+(defn compare-by-version-subversion
+  "We compare by :version and subversion"
+  [{version-a :version subversion-a :subversion}
+   {version-b :version subversion-b :subversion}]
+  (cond
+    (< version-a version-b) -1
+    (> version-a version-b) 1
+    (< subversion-a subversion-b) -1
+    (> subversion-a subversion-b) 1
+    :else 0))
+;(->>
+;  (sorted-map-by compare-by-version-subversion
+;    {:version 1 :subversion 9} {:wtf 19}
+;    {:version 1 :subversion 1} {:wtf 11}
+;    {:version 2 :subversion 1} {:wtf 21}
+;    {:version 1 :subversion 2} {:wtf 12})
+;  clojure.pprint/pprint
+;  )
