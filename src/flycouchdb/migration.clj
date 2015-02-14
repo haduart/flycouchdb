@@ -2,7 +2,7 @@
   (:use [slingshot.slingshot :only [throw+ try+]]
         [flycouchdb.parser.parse-file-names :only (validate-migrations validate-migrations-jar)]
         [flycouchdb.parser.parse-edn-structures :only (parse-edn-structures apply-functions)]
-        [be.dsquare.clutch :only (couch up? exist?)]
+        [be.dsquare.clutch :only (couch up? exist? create-view! get-view)]
         [clojure.java.io :only (file input-stream make-input-stream resource)]
         [clj-time.core :only (now)])
   (:require [com.ashafa.clutch :as clutch]
@@ -11,6 +11,8 @@
            [java.util.jar JarFile]))
 
 (def migration-db "migration-db")
+
+(def migration-counter (atom 0))
 
 (defrecord FlyCouchDB [^String location-folder
                        ^String datasource-url
@@ -31,7 +33,11 @@
   []
   (let [db (couch migration-db)]
     (when-not (exist? db)
-      (clutch/create! db))))
+      (clutch/create! db)
+      (create-view! db
+        "migration-template"
+        "order-migrations"
+        "function(doc) {if (doc.counter) {emit(doc.counter, doc);}}"))))
 
 (defn- resources-in-jar?
   "Check if the resources are inside a jar file or not"
@@ -95,39 +101,7 @@
   (fn [row]
     (vec (map row column-names))))
 
-(defn migrate
-  "Start the migration process"
-  [^FlyCouchDB flycouchdb]
-  (do
-    (validate-connection)
-    (create-if-not-exists)
-    (->>
-      (validate-migrations-folder flycouchdb)
-      (sort-by (columns [:version :subversion]))
-      (map (fn [migration] (slurp-edn-structures migration)))
-      (map (fn [migration] (assoc migration :edn-function (parse-edn-structures (:edn-structure migration)))))
-      (map (fn [migration] (assoc migration :ts (str (now)))))
-      (mapv (fn [migration]
-              (do
-                (apply-functions migration)
-                (clojure.pprint/pprint migration)
-                (let [db (couch migration-db)
-                      edn-migration (-> migration
-                                      (dissoc :file :edn-function :file :edn-structure)
-                                      (assoc :dbname (:dbname (:edn-structure migration)) :action (:action (:edn-structure migration))))]
-                  (clutch/assoc! db (:name migration) edn-migration))))))))
-
-(defn flycouchdb
-  "Returns an instance of an implementation of FlyCouchDB"
-  [^String location-folder]
-  (FlyCouchDB. location-folder nil nil nil))
-
-;{:subversion 1
-; :version    1
-; :name       "V1_1__Create-edu-db"
-; :file       "/migrations/V1_1__Create-edu-db.edn"
-; :file-name  "V1_1__Create-edu-db.edn"}
-(defn compare-by-version-subversion
+(defn- compare-by-version-subversion
   "We compare by :version and subversion"
   [{version-a :version subversion-a :subversion}
    {version-b :version subversion-b :subversion}]
@@ -137,11 +111,50 @@
     (< subversion-a subversion-b) -1
     (> subversion-a subversion-b) 1
     :else 0))
-;(->>
-;  (sorted-map-by compare-by-version-subversion
-;    {:version 1 :subversion 9} {:wtf 19}
-;    {:version 1 :subversion 1} {:wtf 11}
-;    {:version 2 :subversion 1} {:wtf 21}
-;    {:version 1 :subversion 2} {:wtf 12})
-;  clojure.pprint/pprint
-;  )
+
+(defn- update-counter!
+  "Update the counter with the last migration that was run"
+  [{counter :counter :or {:counter 0}}]
+  (reset! migration-counter counter))
+
+(defn migrate
+  "Start the migration process"
+  [^FlyCouchDB flycouchdb]
+  (do
+    (validate-connection)
+    (create-if-not-exists)
+    (let [last-migration (->
+                           "migration-db"
+                           couch
+                           (get-view "migration-template" "order-migrations")
+                           last
+                           :value
+                           (#(if (nil? %)
+                              {:version -1 :subversion -1}
+                              %)))]
+      (do
+        (update-counter! last-migration)
+        (->>
+          (validate-migrations-folder flycouchdb)
+          (sort-by (columns [:version :subversion]))
+
+          (filter #(= (compare-by-version-subversion % last-migration) 1))
+
+          (map (fn [migration] (slurp-edn-structures migration)))
+          (map (fn [migration] (assoc migration :edn-function (parse-edn-structures (:edn-structure migration)))))
+          (map (fn [migration] (assoc migration :ts (str (now)))))
+          (map (fn [migration] (assoc migration :counter (swap! migration-counter inc))))
+          (mapv (fn [migration]
+                  (do
+                    (apply-functions migration)
+                    (clojure.pprint/pprint migration)
+                    (let [db (couch migration-db)
+                          edn-migration (-> migration
+                                          (dissoc :file :edn-function :file :edn-structure)
+                                          (assoc :dbname (:dbname (:edn-structure migration)) :action (:action (:edn-structure migration))))]
+                      (clutch/assoc! db (:name migration) edn-migration))))))))))
+
+(defn flycouchdb
+  "Returns an instance of an implementation of FlyCouchDB"
+  [^String location-folder]
+  (FlyCouchDB. location-folder nil nil nil))
