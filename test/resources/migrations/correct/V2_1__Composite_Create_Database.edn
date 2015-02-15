@@ -1,0 +1,6 @@
+{:action    :composite
+ :composite {:composite-fn (fn [] (->>
+                                    10
+                                    range
+                                    (map (fn [x] {:dbname (str "database-" x)}))
+                                    (mapv (fn [db] (assoc db :action :create)))))}}

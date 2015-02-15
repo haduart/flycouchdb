@@ -115,7 +115,9 @@
 (defn- update-counter!
   "Update the counter with the last migration that was run"
   [{counter :counter :or {:counter 0}}]
-  (reset! migration-counter counter))
+  (do
+    (println (str "Counter: " counter))
+    (reset! migration-counter counter)))
 
 (defn migrate
   "Start the migration process"
@@ -130,7 +132,7 @@
                            last
                            :value
                            (#(if (nil? %)
-                              {:version -1 :subversion -1}
+                              {:version -1 :subversion -1 :counter 0}
                               %)))]
       (do
         (update-counter! last-migration)
