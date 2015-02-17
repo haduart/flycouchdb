@@ -1,0 +1,6 @@
+{:dbname           "database-0"
+ :action           :insert-documents
+ :insert-documents {:insert-documents-fn
+                    (fn [] [{:_id  "1"
+                             :name "Eduard" :surname "Cespedes Borras"
+                             :mail "haduart@gmail.com"}])}}

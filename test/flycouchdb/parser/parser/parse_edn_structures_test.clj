@@ -98,6 +98,20 @@
     (provided (couch anything) => [{}])
     (provided (create! anything) => anything :times 10)))
 
+(fact "Insert documents in a database"
+  (let [db [{}]
+        composite-edn {:dbname           "edu-db"
+                       :action           :insert-documents
+                       :insert-documents {:insert-documents-fn
+                                          (fn [] [{:_id  "1"
+                                                   :name "Eduard" :surname "Cespedes Borras"
+                                                   :mail "haduart@gmail.com"}])}}]
+    ((edn/parse-edn-structures composite-edn)) => anything
+    (provided (couch anything) => db)
+    (provided (clutch/assoc! db "1" {:_id  "1"
+                                     :name "Eduard" :surname "Cespedes Borras"
+                                     :mail "haduart@gmail.com"}) => anything)))
+
 (fact "Test apply functions"
   (edn/apply-functions {:edn-function  (fn [] "hola que aze")
                         :edn-structure {:dbname "edu-db" :action :create}

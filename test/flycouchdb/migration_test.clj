@@ -32,30 +32,29 @@
   (let [folder-path (resource "migrations/correct/")
         flycouchdb (migration/flycouchdb folder-path)]
     (migration/migrate flycouchdb) => anything
-    (provided (couch "migration-db") => migration-db)
+    (provided (couch anything) => migration-db)
     (provided (up? anything) => true)
     (provided (exist? anything) => false)
     (provided (clutch/create! anything) => anything :times 1)
     (provided (create-view! anything anything anything anything) => anything :times 1)
     (provided (get-view anything anything anything) => '({:value {:version -1 :subversion -1}}))
     (provided (#'migration/update-counter! anything) => anything)
-    (provided (edn/apply-functions anything) => anything :times 7)
-    (provided (clutch/assoc! migration-db anything anything) => anything :times 7)))
+    (provided (edn/apply-functions anything) => anything :times 8)
+    (provided (clutch/assoc! migration-db anything anything) => anything :times 8)))
 
 (fact "Run the migrations when some of them had already ben run previously"
   (let [folder-path (resource "migrations/correct/")
         flycouchdb (migration/flycouchdb folder-path)]
     (migration/migrate flycouchdb) => anything
-    (provided (couch "migration-db") => migration-db)
+    (provided (couch anything) => migration-db)
     (provided (up? anything) => true)
     (provided (exist? anything) => false)
     (provided (clutch/create! anything) => anything :times 1)
     (provided (create-view! anything anything anything anything) => anything :times 1)
     (provided (get-view anything anything anything) => '({:value {:version 1 :subversion 133 :counter 4}}))
     (provided (#'migration/update-counter! anything) => anything)
-    (provided (edn/apply-functions anything) => anything :times 4)
-    (provided (clutch/assoc! migration-db anything anything) => anything :times 4)))
-
+    (provided (edn/apply-functions anything) => anything :times 5)
+    (provided (clutch/assoc! migration-db anything anything) => anything :times 5)))
 
 (fact "Run the migrations for a Jar resource"
   (let [folder-path (str "jar:" (resource "flycouchdb-example-0.1.0-SNAPSHOT-standalone.jar") "!/migrations/")

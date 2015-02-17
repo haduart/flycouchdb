@@ -55,6 +55,14 @@
              migration-functions
              (mapv (fn [m-fn] ((eval m-fn))))))))
 
+(defmethod parse-edn-structures :insert-documents
+  [{dbname :dbname {composite-fn :insert-documents-fn} :insert-documents}]
+  (let [db (couch dbname)
+        documents ((eval composite-fn))]
+    (fn [] (->>
+             documents
+             (mapv (fn [document] (clutch/assoc! db (:_id document) document)))))))
+
 
 (defn apply-functions
   "Apply the anonymous functions that were created in this namespace so that
