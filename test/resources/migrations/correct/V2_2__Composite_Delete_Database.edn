@@ -1,0 +1,11 @@
+{:action    :composite
+ :composite {:composite-fn (fn [] [{:dbname "database-0" :action :delete}
+                                   {:dbname "database-1" :action :delete}
+                                   {:dbname "database-2" :action :delete}
+                                   {:dbname "database-3" :action :delete}
+                                   {:dbname "database-4" :action :delete}
+                                   {:dbname "database-5" :action :delete}
+                                   {:dbname "database-6" :action :delete}
+                                   {:dbname "database-7" :action :delete}
+                                   {:dbname "database-8" :action :delete}
+                                   {:dbname "database-9" :action :delete}])}}

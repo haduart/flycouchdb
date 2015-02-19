@@ -46,6 +46,16 @@
              (filter (eval filter-fn))
              (mapv (fn [entry] (clutch/assoc! couchdb (:_id entry) ((eval edit-fn) entry))))))))
 
+(defmethod parse-edn-structures :composite
+  [{{composite-fn :composite-fn} :composite}]
+  (let [migration-functions (->>
+                              ((eval composite-fn))
+                              (mapv (fn [edn-structure] (parse-edn-structures edn-structure))))]
+    (fn [] (->>
+             migration-functions
+             (mapv (fn [m-fn] ((eval m-fn))))))))
+
+
 (defn apply-functions
   "Apply the anonymous functions that were created in this namespace so that
   there is no problem with the imports."

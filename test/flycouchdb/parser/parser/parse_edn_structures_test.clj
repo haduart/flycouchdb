@@ -14,7 +14,6 @@
     (provided (couch "edu-db") => [{}])
     (provided (create! anything) => anything)))
 
-
 (fact "Create a function from the edn structure that will delete a couchdb db"
   (let [delete-database {:dbname "edu-db"
                          :action :delete}]
@@ -35,7 +34,6 @@
     (provided (couch "edu-db") => couchdb-entity)
     (provided (create-view! couchdb-entity "view-design" "view-name" javascript-function)
       => anything)))
-
 
 (let [couchdb-entries [["isvag-gemeten-sec-lucht-q"
                         {:_id   "isvag-gemeten-sec-lucht-q",
@@ -75,9 +73,9 @@
 
   (fact "Create a function from the edn structure that EDIT key entries"
     (let [edit-entries {:dbname       "edu-db"
-                          :action       :edit-entries
-                          :edit-entries {:filter-fn (fn [{count :count}] (< 10 count))
-                                         :edit-fn   (fn [entry] (assoc entry :new-key "new value"))}}]
+                        :action       :edit-entries
+                        :edit-entries {:filter-fn (fn [{count :count}] (< 10 count))
+                                       :edit-fn   (fn [entry] (assoc entry :new-key "new value"))}}]
       ((edn/parse-edn-structures edit-entries)) => anything
       (provided (couch "edu-db") => couchdb-entries)
       (provided (take-all anything) => couchdb-entries)
@@ -87,6 +85,18 @@
                                                    :startDate "2010-01-28T15:26:43.721Z"
                                                    :count     30,
                                                    :new-key   "new value"}) => anything :times 1))))
+
+(fact "Using the composite structure to create 10 databases"
+  (let [composite-edn {:action    :composite
+                       :composite {:composite-fn
+                                   (fn [] (->>
+                                            10
+                                            range
+                                            (map (fn [x] {:dbname (str "database-" x)}))
+                                            (mapv (fn [db] (assoc db :action :create)))))}}]
+    ((edn/parse-edn-structures composite-edn)) => anything
+    (provided (couch anything) => [{}])
+    (provided (create! anything) => anything :times 10)))
 
 (fact "Test apply functions"
   (edn/apply-functions {:edn-function  (fn [] "hola que aze")

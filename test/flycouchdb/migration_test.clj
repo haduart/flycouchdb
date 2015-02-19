@@ -39,8 +39,8 @@
     (provided (create-view! anything anything anything anything) => anything :times 1)
     (provided (get-view anything anything anything) => '({:value {:version -1 :subversion -1}}))
     (provided (#'migration/update-counter! anything) => anything)
-    (provided (edn/apply-functions anything) => anything :times 5)
-    (provided (clutch/assoc! migration-db anything anything) => anything :times 5)))
+    (provided (edn/apply-functions anything) => anything :times 7)
+    (provided (clutch/assoc! migration-db anything anything) => anything :times 7)))
 
 (fact "Run the migrations when some of them had already ben run previously"
   (let [folder-path (resource "migrations/correct/")
@@ -53,8 +53,8 @@
     (provided (create-view! anything anything anything anything) => anything :times 1)
     (provided (get-view anything anything anything) => '({:value {:version 1 :subversion 133 :counter 4}}))
     (provided (#'migration/update-counter! anything) => anything)
-    (provided (edn/apply-functions anything) => anything :times 2)
-    (provided (clutch/assoc! migration-db anything anything) => anything :times 2)))
+    (provided (edn/apply-functions anything) => anything :times 4)
+    (provided (clutch/assoc! migration-db anything anything) => anything :times 4)))
 
 
 (fact "Run the migrations for a Jar resource"
