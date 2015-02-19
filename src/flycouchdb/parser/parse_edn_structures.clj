@@ -1,5 +1,5 @@
 (ns flycouchdb.parser.parse-edn-structures
-  (:use [be.dsquare.clutch :only (couch drop! up? exist? create-view! take-all)]
+  (:use [be.dsquare.clutch :only (couch drop! up? exist? create-view! take-all get-view get-user-view create-user-view!)]
         [com.ashafa.clutch :only (create!)]
         [slingshot.slingshot :only [throw+ try+]])
   (:require [com.ashafa.clutch :as clutch]))
