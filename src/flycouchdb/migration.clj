@@ -5,8 +5,7 @@
         [be.dsquare.clutch :only (couch up? exist? create-view! get-view)]
         [clojure.java.io :only (file input-stream make-input-stream resource)]
         [clj-time.core :only (now)])
-  (:require [com.ashafa.clutch :as clutch]
-            [clojure.edn :as edn])
+  (:require [com.ashafa.clutch :as clutch])
   (:import [java.net URL]
            [java.util.jar JarFile]))
 
@@ -76,10 +75,10 @@
 (defmulti slurp-edn-structures :source)
 
 (defmethod slurp-edn-structures :file [migration]
-  (assoc migration :edn-structure (edn/read-string (slurp (:file migration)))))
+  (assoc migration :edn-structure (read-string (slurp (:file migration)))))
 
 (defmethod slurp-edn-structures :jar [migration]
-  (assoc migration :edn-structure (edn/read-string (slurp (input-stream (:file migration))))))
+  (assoc migration :edn-structure (read-string (slurp (input-stream (:file migration))))))
 
 (defmulti validate-migrations-folder
   (fn [{location-folder :location-folder}] (resources-in-jar? location-folder)))
