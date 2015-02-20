@@ -1,10 +1,10 @@
-(defproject flycouchdb "0.1.27-SNAPSHOT"
+(defproject flycouchdb "0.2.0"
   :description "Migration tool for CouchDB"
   :url "https://github.com/haduart/flycouchdb"
   :license {:name "BSD"
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [couchdb-extension "0.1.3"]
+                 [couchdb-extension "0.1.4"]
                  [clj-http "1.0.1"]
                  [ch.qos.logback/logback-classic "1.1.2"]
                  [com.ashafa/clutch "0.4.0" :exclusions [clj-http]]
