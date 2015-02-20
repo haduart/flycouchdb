@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/haduart/flycouchdb.svg)](https://travis-ci.org/haduart/flycouchdb) [![Dependency Status](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1)
 
 ### CouchDB Migrations Made Easy!
-![alt text](https://github.com/haduart/flycouchdb/tree/master/test/resources/Flying_red_couch.jpg "FlyCouchDB")
+![alt text](https://raw.githubusercontent.com/haduart/flycouchdb/master/test/resources/Flying_red_couch.jpg "FlyCouchDB")
 
 [1.1]: http://i.imgur.com/tXSoThF.png (twitter icon with padding)
 [1]: https://twitter.com/flycouchdb
@@ -34,7 +34,7 @@ Evolve your database schema easily and reliably across all your instances!
 
 With Maven:
 
-```maven pom
+```bash
 <dependency>
   <groupId>flycouchdb</groupId>
   <artifactId>flycouchdb</artifactId>
@@ -43,7 +43,7 @@ With Maven:
 ```
 
 With Gradle:
-```gradle
+```bash
 compile "flycouchdb:flycouchdb:0.2.0"
 ```
 
