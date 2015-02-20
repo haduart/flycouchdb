@@ -1,29 +1,55 @@
-# FlyCouchDB
+# FlyCouchDB [![alt text][1.1]][1]
 [![Build Status](https://travis-ci.org/haduart/flycouchdb.svg)](https://travis-ci.org/haduart/flycouchdb) [![Dependency Status](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1)
 
+### CouchDB Migrations Made Easy!
+![alt text](https://github.com/haduart/flycouchdb/tree/master/test/resources/Flying_red_couch.jpg "FlyCouchDB")
+
+[1.1]: http://i.imgur.com/tXSoThF.png (twitter icon with padding)
+[1]: https://twitter.com/flycouchdb
+[2]: https://twitter.com/haduart
 FlyCouchDB is a [clojure](http://clojure.org) migration tool for [Apache CouchDB](http://couchdb.apache.org/) inspired
 in what [Flywaydb](flywaydb.org) does for a relational database.
 
 And why would I need a migration tool for a flexible/schemaless database? because even if your database
 is schemaless that doesn't mean that there's no schema or structure in your data:
 
-"Usually when you're talking to a database you want to get some specific pieces of data out of it:
+*"Usually when you're talking to a database you want to get some specific pieces of data out of it:
 I'd like the price, I'd like the quantity, I'd like the customer. As soon as you are doing that
 what you are doing is setting up an implicit schema. You are assuming that an order has a price
 field. You are assuming tha is called 'price', not cost, or 'price to customer' or whatever.
 That implicit schema is still in place and you've got to manage that implicit schema in many
-ways in a similar approach that you manage the relational database."
+ways in a similar approach that you manage the relational database."*
 From [Introduction to NoSQL](https://www.youtube.com/watch?v=qI_g07C_Q5I#t=11m30) by Martin Fowler.
 
 FlyCouchDB helps you maintaining an ordered migration list, allowing you to forget which migration has been run
-in a certain server. Just apply run the migrations and FlyCouchDB would start running from last run migration:
+in a certain server. Just run the migrations and FlyCouchDB would start running from last ran migration:
 no mistakes, no migrations applied twice, no problems! Your data would be always in the state that you want,
 so you also can forget about adding hacks in your code depending if that field exist or not!
 
+Evolve your database schema easily and reliably across all your instances!
+
 ## Current Version
 
+[![Clojars Project](http://clojars.org/flycouchdb/latest-version.svg)](http://clojars.org/flycouchdb)
 
+With Maven:
 
+```maven pom
+<dependency>
+  <groupId>flycouchdb</groupId>
+  <artifactId>flycouchdb</artifactId>
+  <version>0.2.0</version>
+</dependency>
+```
+
+With Gradle:
+```gradle
+compile "flycouchdb:flycouchdb:0.2.0"
+```
+
+### Works on
+
+Windows, Mac OSX, Linux, Java and Android
 
 ## Usage
 
@@ -33,12 +59,12 @@ whenever you execute it as an executable jar or as a deployable war.
 For this example we will create a simple jar migration project. You can find a similar example project with
 more advanced migrations here: [FlyCouchDB-example](https://github.com/haduart/flycouchdb-example).
 
-1. First create a clojure project (it could also work inside a Java project or Scala):
+First create a clojure project (it could also work inside a Java project or Scala):
 ```bash
 lein new flycouchdb-example
 ```
 
-2. In the `project.clj` add the dependency to flycouchdb with the latest stable version:
+In the `project.clj` add the dependency to flycouchdb with the latest stable version:
 
 ```clojure
 (defproject flycouchdb-example "0.1.0-SNAPSHOT"
@@ -50,9 +76,9 @@ lein new flycouchdb-example
                  [flycouchdb "0.2.0"]]
 ```
 
-3. Create a migrations folder inside your resources folder and put there your migrations.
+Create a migrations folder inside your resources folder and put there your migrations.
 
-4. Then just create a clojure main entry point where you will run the migrations from that folder:
+Then just create a clojure main entry point where you will run the migrations from that folder:
 
 ```clojure
 (ns flycouchdbexample.core
@@ -72,12 +98,12 @@ lein new flycouchdb-example
     (println "Done!")))
 ```
 
-5. Build it:
+Build it:
 ```bash
 lein do clean, uberjar
 ```
 
-6. And run it:
+And run it:
 ```bash
  lein run
 ```
@@ -106,13 +132,13 @@ In each migration file it can only be one edn structure representing one action,
 except of the compose actions that can execute multiple actions.
 
 So far for the current version there's a minimum set of actions that you can execute:
-⋅⋅* Create Database
-⋅⋅* Delete Database
-⋅⋅* Create View
-⋅⋅* Rename Keys
-⋅⋅* Edit Documents
-⋅⋅* Insert Documents
-⋅⋅* Composing actions
+- Create Database
+- Delete Database
+- Create View
+- Rename Keys
+- Edit Documents
+- Insert Documents
+- Composing actions
 
 ### Create Database
 
@@ -279,11 +305,12 @@ It even allows you to do advanced database manipulations like never before!
 ```
 
 
+
 ## Contributors
 
 Appreciations go out to:
 
-* [Eduard Cespedes Borras](https://github.com/haduart)
+* [Eduard Cespedes Borras](https://github.com/haduart) [![alt text][1.1]][2]
 * [Roberto Barchino Garrido](https://github.com/fisoide)
 * [Igor Ruzanov](https://github.com/r00z)
 * [Jeroen Hoekx](https://github.com/jhoekx)
