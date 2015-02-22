@@ -8,7 +8,7 @@
 [1]: https://twitter.com/flycouchdb
 [2]: https://twitter.com/haduart
 FlyCouchDB is a [clojure](http://clojure.org) migration tool for [Apache CouchDB](http://couchdb.apache.org/) inspired
-in what [Flywaydb](flywaydb.org) does for a relational database.
+in what [Flywaydb](http://flywaydb.org) does for a relational database.
 
 And why would I need a migration tool for a flexible/schemaless database? because even if your database
 is schemaless that doesn't mean that there's no schema or structure in your data:
