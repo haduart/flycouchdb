@@ -1,4 +1,6 @@
 # FlyCouchDB [![alt text][1.1]][1]
+
+[![Join the chat at https://gitter.im/haduart/flycouchdb](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haduart/flycouchdb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/haduart/flycouchdb.svg)](https://travis-ci.org/haduart/flycouchdb) [![Dependency Status](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1)
 
 ### CouchDB Migrations Made Easy!
