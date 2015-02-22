@@ -13,11 +13,11 @@
 
   :plugins [[lein-midje "3.1.3"]
             [lein-pprint "1.1.1"]
-            [lein-ancient "0.5.5"]]
+            [lein-ancient "0.5.5"]
+            [lein-cloverage "1.0.2"]]
 
   :repl-options {:welcome (println "Welcome to the magical world of the repl!")
                  :port 4001}
-  ;  [lein-cloverage "1.0.3-SNAPSHOT"]
 
   :min-lein-version "2.0.0"
 
