@@ -1,5 +1,5 @@
 # FlyCouchDB [![alt text][1.1]][1]
-[![Build Status](https://travis-ci.org/haduart/flycouchdb.svg)](https://travis-ci.org/haduart/flycouchdb) [![Dependency Status](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haduart/flycouchdb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/haduart/flycouchdb.svg)](https://travis-ci.org/haduart/flycouchdb) [![Dependency Status](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54dafaf4c1bbbd9bd70003b1) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haduart/flycouchdb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Coverage Status](https://coveralls.io/repos/haduart/flycouchdb/badge.svg)](https://coveralls.io/r/haduart/flycouchdb)
 
 ### CouchDB Migrations Made Easy!
 ![alt text](https://raw.githubusercontent.com/haduart/flycouchdb/master/test/resources/Flying_red_couch.jpg "FlyCouchDB")
