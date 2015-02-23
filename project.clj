@@ -14,7 +14,8 @@
   :plugins [[lein-midje "3.1.3"]
             [lein-pprint "1.1.1"]
             [lein-ancient "0.5.5"]
-            [lein-cloverage "1.0.2"]]
+            [lein-cloverage "1.0.2"]
+            [lein-kibit "0.0.8"]]
 
   :repl-options {:welcome (println "Welcome to the magical world of the repl!")
                  :port 4001}
