@@ -15,7 +15,8 @@
             [lein-pprint "1.1.1"]
             [lein-ancient "0.5.5"]
             [lein-cloverage "1.0.2"]
-            [lein-kibit "0.0.8"]]
+            [lein-kibit "0.0.8"]
+            [lein-marginalia "0.8.0"]]
 
   :repl-options {:welcome (println "Welcome to the magical world of the repl!")
                  :port 4001}
