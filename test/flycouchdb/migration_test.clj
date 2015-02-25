@@ -57,7 +57,7 @@
     (provided (clutch/assoc! migration-db anything anything) => anything :times 5)))
 
 (fact "Run the migrations for a Jar resource"
-  (let [folder-path (str "jar:" (resource "flycouchdb-example-0.1.0-SNAPSHOT-standalone.jar") "!/migrations/")
+  (let [folder-path (URL. (str "jar:" (resource "flycouchdb-example-0.1.0-SNAPSHOT-standalone.jar") "!/migrations/"))
         flycouchdb (migration/flycouchdb folder-path)]
     (migration/migrate flycouchdb) => anything
     (provided (couch "migration-db") => migration-db)
@@ -75,3 +75,20 @@
   (let [jar-file "jar:file:/Users/haduart/flycouchdb-example-0.1.0-SNAPSHOT-standalone.jar!/migrations/"
         response ["/Users/haduart/flycouchdb-example-0.1.0-SNAPSHOT-standalone.jar" "migrations/"]]
     (#'migration/extract-jar-path-and-folder (URL. jar-file)) => response))
+
+;(fact "Run the migrations for a VFS resource"
+;  (let [folder-path (resource "migrations/correct/")
+;        flycouchdb (migration/flycouchdb folder-path)]
+;    (migration/migrate flycouchdb) => anything
+;    (provided (couch "migration-db") => migration-db)
+;    (provided (#' migration/get-url-protocol folder-path) => "vfs")
+;    (provided (up? anything) => true)
+;    (provided (exist? anything) => false)
+;    (provided (clutch/create! anything) => anything :times 1)
+;    (provided (create-view! anything anything anything anything) => anything :times 1)
+;    (provided (get-view anything "migration-template" "order-migrations") => ())
+;    (provided (#'migration/update-counter! anything) => anything)
+;    (provided (edn/apply-functions anything) => anything :times 1)
+;    (provided (clutch/assoc! migration-db anything anything) => anything :times 1)
+;    (provided (resource anything) => (str folder-path "V1_1__Create-edu-db.edn"))))
+

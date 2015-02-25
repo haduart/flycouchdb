@@ -6,8 +6,10 @@
         [clojure.java.io :only (file input-stream make-input-stream resource)]
         [clj-time.core :only (now)])
   (:require [com.ashafa.clutch :as clutch])
-  (:import [java.net URL]
-           [java.util.jar JarFile]))
+  (:import [java.net URL URLDecoder]
+           [java.util.jar JarFile]
+           [java.io File]
+           [org.jboss.vfs VFS VirtualFile VirtualFileFilter]))
 
 (def migration-db "migration-db")
 
@@ -28,7 +30,8 @@
                :message (str "Trying to connect to CouchDB. Connection is down!")}))))
 
 (defn- create-if-not-exists
-  "Validates the connection"
+  "Creates the migration database in CouchDB in case it does not exist.
+  The migration database is named 'migration-db', and is a hardcoded name so far."
   []
   (let [db (couch migration-db)]
     (when-not (exist? db)
@@ -38,17 +41,7 @@
         "order-migrations"
         "function(doc) {if (doc.counter) {emit(doc.counter, doc);}}"))))
 
-(defn- resources-in-jar?
-  "Check if the resources are inside a jar file or not"
-  [^URL migration-resource]
-  (let [migration-path-string (str migration-resource)]
-    (->>
-      migration-path-string
-      (re-find #"jar:file:*")
-      nil?
-      not)))
-
-(defn- migration-list [[^java.lang.String jar-path ^java.lang.String migration-folder]]
+(defn- jar-migration-list [[^java.lang.String jar-path ^java.lang.String migration-folder]]
   (->>
     jar-path
     JarFile.
@@ -60,6 +53,20 @@
             {:file-name (subs (.getName x) (count migration-folder) (count (.getName x)))
              :file      (resource (.getName x))
              :source    :jar}))))
+
+(defn- vfs-migration-list [^java.lang.String location-folder]
+  (->>
+    location-folder
+    .getPath
+    (. URLDecoder decode)
+    File.
+    .getAbsolutePath
+    (. VFS getChild)
+    .getChildren
+    (mapv (fn [^VirtualFile v]
+            {:file-name (.getName v)
+             :file      v
+             :source    :vfs}))))
 
 (defn- extract-jar-path-and-folder
   "It splits the jar path and the internal folder from the jar URL
@@ -80,21 +87,36 @@
 (defmethod slurp-edn-structures :jar [migration]
   (assoc migration :edn-structure (read-string (slurp (input-stream (:file migration))))))
 
-(defmulti validate-migrations-folder
-  (fn [{location-folder :location-folder}] (resources-in-jar? location-folder)))
+(defmethod slurp-edn-structures :vfs [migration]
+  (assoc migration :edn-structure (read-string (slurp (.openStream (:file migration))))))
 
-(defmethod validate-migrations-folder true [{location-folder :location-folder}]
+(defn get-url-protocol
+  "Wraps around the Java call. Just to make the function testable"
+  [location-folder]
+  (.getProtocol location-folder))
+
+(defmulti validate-migrations-folder
+  (fn [{location-folder :location-folder}] (get-url-protocol location-folder)))
+
+(defmethod validate-migrations-folder "jar" [{location-folder :location-folder}]
   (->
     location-folder
     extract-jar-path-and-folder
-    migration-list
+    jar-migration-list
     validate-migrations-jar))
 
-(defmethod validate-migrations-folder false [{location-folder :location-folder}]
+(defmethod validate-migrations-folder "file" [{location-folder :location-folder}]
   (->
     location-folder
     file
     validate-migrations))
+
+(defmethod validate-migrations-folder "vfs" [{location-folder :location-folder}]
+  (->
+    location-folder
+    vfs-migration-list
+    validate-migrations-jar))
+
 
 (defn- columns [column-names]
   (fn [row]
