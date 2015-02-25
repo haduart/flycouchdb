@@ -9,7 +9,8 @@
                  [ch.qos.logback/logback-classic "1.1.2"]
                  [com.ashafa/clutch "0.4.0" :exclusions [clj-http]]
                  [clj-time "0.9.0"]
-                 [slingshot "0.12.2"]]
+                 [slingshot "0.12.2"]
+                 [org.jboss/jboss-vfs "3.1.0.Final"]]
 
   :plugins [[lein-midje "3.1.3"]
             [lein-pprint "1.1.1"]
