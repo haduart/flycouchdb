@@ -112,9 +112,11 @@
     validate-migrations))
 
 (defmethod validate-migrations-folder "vfs" [{location-folder :location-folder}]
-  location-folder
-  vfs-migration-list
-  validate-migrations-jar)
+  (->
+    location-folder
+    vfs-migration-list
+    validate-migrations-jar))
+
 
 (defn- columns [column-names]
   (fn [row]
