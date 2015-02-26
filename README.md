@@ -38,13 +38,13 @@ With Maven:
 <dependency>
   <groupId>flycouchdb</groupId>
   <artifactId>flycouchdb</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
 With Gradle:
 ```bash
-compile "flycouchdb:flycouchdb:0.2.0"
+compile "flycouchdb:flycouchdb:0.2.1"
 ```
 
 ### Works on
@@ -73,7 +73,7 @@ In the `project.clj` add the dependency to flycouchdb with the latest stable ver
   :license {:name "BSD"
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [flycouchdb "0.2.0"]]
+                 [flycouchdb "0.2.1"]]
 ```
 
 Create a migrations folder inside your resources folder and put there your migrations.

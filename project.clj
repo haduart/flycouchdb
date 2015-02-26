@@ -1,4 +1,4 @@
-(defproject flycouchdb "0.2.1-SNAPSHOT"
+(defproject flycouchdb "0.2.1"
   :description "Migration tool for CouchDB"
   :url "https://github.com/haduart/flycouchdb"
   :license {:name "BSD"
