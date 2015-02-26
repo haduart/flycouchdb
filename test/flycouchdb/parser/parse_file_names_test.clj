@@ -1,33 +1,13 @@
 (ns flycouchdb.parser.parse-file-names-test
-  (:use clojure.test
-        midje.sweet
+  (:use
+    midje.sweet
         [clojure.java.io :only (file resource)]
         [slingshot.slingshot :only [throw+ try+]])
   (:require
-    [flycouchdb.parser.parse-file-names :as fly]))
-
-(def migrations-folder (file (resource "migrations/correct/")))
-(def second-file (second (file-seq migrations-folder)))
-
-(fact "Check the validate-migrations"
-  (fly/validate-migrations migrations-folder) => anything)
-
-(fact "Validate if it's a file and throw an exception otherwise"
-  (fact "Is a file"
-    (#'fly/validate-is-a-file second-file) => second-file)
-  (fact "Is not a file"
-    (try+
-      (#'fly/validate-is-a-file "")
-      (catch [:type :flycouchdb] {function-name :fn message :message}
-        [function-name message])) => ["validate-is-a-file" "Is not a valid File"]))
-
-(fact "Generate the initial file structure"
-  (let [prefix-name (.getName second-file)]
-    (#'fly/generate-migration-file-structure second-file)
-    => {:file-name prefix-name :file second-file :source :file}))
+    [flycouchdb.parser.parse-migration-names :as fly]))
 
 (fact "Validate if it's a correct edn file and add it to the structure"
-  (fact "Is an edn-file?"
+  (fact "It is an edn-file?"
     (#'fly/edn-file? "V1_131__Create_Database.edn") => true
     (#'fly/edn-file? "V1_131__Create_Database.txt") => false
     (#'fly/edn-file? "V1_131__Create_Database.edn.txt") => false)
