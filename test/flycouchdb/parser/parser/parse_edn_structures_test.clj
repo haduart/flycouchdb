@@ -1,6 +1,5 @@
 (ns flycouchdb.parser.parser.parse-edn-structures-test
-  (:use clojure.test
-        midje.sweet
+  (:use midje.sweet
         [slingshot.slingshot :only [throw+ try+]]
         [be.dsquare.clutch :only (couch drop! up? exist? create-view! take-all)]
         [com.ashafa.clutch :only (create!)])
