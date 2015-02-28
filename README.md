@@ -49,7 +49,7 @@ compile "flycouchdb:flycouchdb:0.2.1"
 
 ### Works on
 
-Windows, Mac OSX, Linux, Java and Android
+Windows, Mac OSX, Linux, Java or even as a deployable war inside JBoss/Wildfly, Tomcat, Jetty.
 
 ## Usage
 
@@ -58,6 +58,8 @@ whenever you execute it as an executable jar or as a deployable war.
 
 For this example we will create a simple jar migration project. You can find a similar example project with
 more advanced migrations here: [FlyCouchDB-example](https://github.com/haduart/flycouchdb-example).
+
+Here you can find an example on how to run FlyCouchDB inside a webapp: [FlyCouchDB Webapp Example](https://github.com/haduart/flycouchdb-webproject-example)
 
 First create a clojure project (it could also work inside a Java project or Scala):
 ```bash
@@ -304,13 +306,19 @@ It even allows you to do advanced database manipulations like never before!
                                                   :edit-fn   (fn [entry] (merge entry (get @averages (:_id entry))))}}])))}}
 ```
 
+## Changelog
 
+### v0.2.1
+* Added support to JBoss VFS. Not it also works in JBoss EAP 5,6 and WildFly
+
+### v0.2.0
+* Running inside a JAR
+* Running as a normal Clojure project.
+* Initial actions are supported: Create Database, Delete Database, Create View, Rename Keys, Edit Documents, Insert Documents and Composing actions.
 
 ## Contributors
 
-Appreciations go out to:
-
-* [Eduard Cespedes Borras](https://github.com/haduart) [![alt text][1.1]][2]
+* **(Author)** [Eduard Cespedes Borras](https://github.com/haduart) [![alt text][1.1]][2]
 * [Roberto Barchino Garrido](https://github.com/fisoide)
 * [Igor Ruzanov](https://github.com/r00z)
 * [Jeroen Hoekx](https://github.com/jhoekx)
