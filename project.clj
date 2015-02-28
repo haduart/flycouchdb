@@ -1,4 +1,4 @@
-(defproject flycouchdb "0.2.1"
+(defproject flycouchdb "0.2.2-SNAPSHOT"
   :description "Migration tool for CouchDB"
   :url "https://github.com/haduart/flycouchdb"
   :license {:name "BSD"
@@ -17,7 +17,8 @@
             [lein-ancient "0.5.5"]
             [lein-cloverage "1.0.2"]
             [lein-kibit "0.0.8"]
-            [lein-marginalia "0.8.0"]]
+            [lein-marginalia "0.8.0"]
+            [lein-set-version "0.4.1"]]
 
   :repl-options {:welcome (println "Welcome to the magical world of the repl!")
                  :port 4001}
