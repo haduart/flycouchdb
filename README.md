@@ -308,6 +308,9 @@ It even allows you to do advanced database manipulations like never before!
 
 ## Changelog
 
+### v0.2.2-SNAPSHOT
+* delete-documents action
+
 ### v0.2.1
 * Added support to JBoss VFS. Not it also works in JBoss EAP 5,6 and WildFly
 

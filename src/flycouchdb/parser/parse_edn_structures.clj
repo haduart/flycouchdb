@@ -56,13 +56,23 @@
              (mapv (fn [m-fn] ((eval m-fn))))))))
 
 (defmethod parse-edn-structures :insert-documents
-  [{dbname :dbname {composite-fn :insert-documents-fn} :insert-documents}]
+  [{dbname :dbname {insert-fn :insert-documents-fn} :insert-documents}]
   (let [db (couch dbname)
-        documents ((eval composite-fn))]
+        documents ((eval insert-fn))]
     (fn [] (->>
              documents
              (mapv (fn [document] (clutch/assoc! db (:_id document) document)))))))
 
+(defmethod parse-edn-structures :delete-documents
+  [{dbname :dbname {filter-fn :filter-fn} :delete-documents}]
+  (fn [] (let [couchdb (couch dbname)]
+           (->>
+             couchdb
+             take-all
+             (map #(second %))
+             (filter (eval filter-fn))
+             (mapv (fn [{id :_id}]
+                     (clutch/dissoc! couchdb id)))))))
 
 (defn apply-functions
   "Apply the anonymous functions that were created in this namespace so that

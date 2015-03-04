@@ -111,6 +111,28 @@
                                      :name "Eduard" :surname "Cespedes Borras"
                                      :mail "haduart@gmail.com"}) => anything)))
 
+(fact "Delete documents in a database"
+  (let [db [{}]
+        couchdb-entries [["isvag-gemeten-sec-lucht-q"
+                          {:_id   "isvag-gemeten-sec-lucht-q",
+                           :_rev  "1-d4cee928236645421115a843a7711bc9",
+                           :name  "isvag-gemeten-sec-lucht-q",
+                           :count 9}]
+                         ["isvag-1"
+                          {:_id       "isvag-1",
+                           :_rev      "2-d4cee928236645421115a843a7711bc9",
+                           :name      "isvag-1-name",
+                           :startDate "2010-01-28T15:26:43.721Z"
+                           :count     30}]]
+        composite-edn {:dbname           "edu-db"
+                       :action           :delete-documents
+                       :delete-documents {:filter-fn (fn [{count :count}] (< 10 count))}}]
+
+    ((edn/parse-edn-structures composite-edn)) => anything
+    (provided (couch anything) => db)
+    (provided (take-all anything) => couchdb-entries)
+    (provided (clutch/dissoc! db "isvag-1") => anything)))
+
 (fact "Test apply functions"
   (edn/apply-functions {:edn-function  (fn [] "hola que aze")
                         :edn-structure {:dbname "edu-db" :action :create}

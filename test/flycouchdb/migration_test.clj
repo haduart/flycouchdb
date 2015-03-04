@@ -38,8 +38,8 @@
     (provided (create-view! anything anything anything anything) => anything :times 1)
     (provided (get-view anything anything anything) => '({:value {:version -1 :subversion -1}}))
     (provided (#'migration/update-counter! anything) => anything)
-    (provided (edn/apply-functions anything) => anything :times 8)
-    (provided (clutch/assoc! migration-db anything anything) => anything :times 8)))
+    (provided (edn/apply-functions anything) => anything :times 9)
+    (provided (clutch/assoc! migration-db anything anything) => anything :times 9)))
 
 (fact "Run the migrations when some of them had already ben run previously"
   (let [folder-path (resource "migrations/correct/")
@@ -52,8 +52,8 @@
     (provided (create-view! anything anything anything anything) => anything :times 1)
     (provided (get-view anything anything anything) => '({:value {:version 1 :subversion 133 :counter 4}}))
     (provided (#'migration/update-counter! anything) => anything)
-    (provided (edn/apply-functions anything) => anything :times 5)
-    (provided (clutch/assoc! migration-db anything anything) => anything :times 5)))
+    (provided (edn/apply-functions anything) => anything :times 6)
+    (provided (clutch/assoc! migration-db anything anything) => anything :times 6)))
 
 (fact "Run the migrations for a Jar resource"
   (let [folder-path (URL. (str "jar:" (resource "flycouchdb-example-0.1.0-SNAPSHOT-standalone.jar") "!/migrations/"))
