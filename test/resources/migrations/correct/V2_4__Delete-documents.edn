@@ -1,0 +1,3 @@
+{:dbname           "database-0"
+ :action           :delete-documents
+ :delete-documents {:filter-fn (fn [{count :count}] (< 10 count))}}
