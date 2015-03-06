@@ -20,9 +20,6 @@
             [lein-marginalia "0.8.0"]
             [lein-set-version "0.4.1"]]
 
-  :repl-options {:welcome (println "Welcome to the magical world of the repl!")
-                 :port 4001}
-
   :min-lein-version "2.0.0"
 
   :resource-paths ["resources/"]
