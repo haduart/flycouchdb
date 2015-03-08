@@ -18,7 +18,8 @@
             [lein-cloverage "1.0.2"]
             [lein-kibit "0.0.8"]
             [lein-marginalia "0.8.0"]
-            [lein-set-version "0.4.1"]]
+            [lein-set-version "0.4.1"]
+            [lein-clique "0.1.2" :exclusions [org.clojure/clojure]]]
 
   :min-lein-version "2.0.0"
 
