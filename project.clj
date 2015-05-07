@@ -5,7 +5,7 @@
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [couchdb-extension "0.1.4"]
-                 [clj-http "1.0.1"]
+                 [clj-http "1.1.2"]
                  [ch.qos.logback/logback-classic "1.1.2"]
                  [com.ashafa/clutch "0.4.0" :exclusions [clj-http]]
                  [clj-time "0.9.0"]
@@ -26,7 +26,7 @@
   :resource-paths ["resources/"]
 
   :profiles {:dev {:dependencies [[ring-mock "0.1.5"] [midje "1.6.3"]
-                                  [peridot "0.3.1"]]
+                                  [peridot "0.4.0"]]
                    :resource-paths ["test/resources/"]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}
              :1.6 {:dependencies [[org.clojure/clojure "1.6.0"]]}
