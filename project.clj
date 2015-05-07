@@ -1,4 +1,4 @@
-(defproject flycouchdb "0.2.2-SNAPSHOT"
+(defproject flycouchdb "0.2.2-SIMPLEDB-BRANCH-V2"
   :description "Migration tool for CouchDB"
   :url "https://github.com/haduart/flycouchdb"
   :license {:name "BSD"
@@ -10,7 +10,8 @@
                  [com.ashafa/clutch "0.4.0" :exclusions [clj-http]]
                  [clj-time "0.9.0"]
                  [slingshot "0.12.2"]
-                 [org.jboss/jboss-vfs "3.1.0.Final"]]
+                 [org.jboss/jboss-vfs "3.1.0.Final"]
+                 [simpledb "0.1.0"]]
 
   :plugins [[lein-midje "3.1.3"]
             [lein-pprint "1.1.1"]
@@ -20,6 +21,13 @@
             [lein-marginalia "0.8.0"]
             [lein-set-version "0.4.1"]
             [lein-clique "0.1.2" :exclusions [org.clojure/clojure]]]
+
+  :deploy-repositories [["releases" {:url "http://nexus.dsquare.intra/content/repositories/hps-releases"
+                                     :sign-releases false}]
+                        ["snapshots" {:url "http://nexus.dsquare.intra/content/repositories/hps-snapshots"
+                                      :sign-releases false}]]
+  :mirrors {"central" {:name "nexus"
+                       :url "http://nexus.dsquare.intra/content/groups/public"}}
 
   :min-lein-version "2.0.0"
 
