@@ -6,11 +6,11 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [couchdb-extension "0.1.4"]
                  [clj-http "1.0.1"]
-                 [ch.qos.logback/logback-classic "1.1.2"]
+                 [ch.qos.logback/logback-classic "1.1.3"]
                  [com.ashafa/clutch "0.4.0" :exclusions [clj-http]]
                  [clj-time "0.9.0"]
                  [slingshot "0.12.2"]
-                 [org.jboss/jboss-vfs "3.1.0.Final"]]
+                 [org.jboss/jboss-vfs "3.2.9.Final"]]
 
   :plugins [[lein-midje "3.1.3"]
             [lein-pprint "1.1.1"]
